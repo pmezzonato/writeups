@@ -1,0 +1,27 @@
+---
+import { render } from 'astro:content';
+import Writeup from '../../layouts/Writeup.astro';
+import { getPublished } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const projects = await getPublished('projects');
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const specs = project.data.stack.length > 0
+  ? [{ label: 'Built with', value: project.data.stack.join(', ') }]
+  : [];
+---
+<Writeup
+  title={project.data.title}
+  date={project.data.date}
+  summary={project.data.summary}
+  specs={specs}
+>
+  {project.data.repo && (
+    <p><a href={project.data.repo}>Source repository</a></p>
+  )}
+  <Content />
+</Writeup>

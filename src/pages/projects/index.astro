@@ -1,0 +1,36 @@
+---
+import Base from '../../layouts/Base.astro';
+import WriteupCard from '../../components/WriteupCard.astro';
+import EmptyState from '../../components/EmptyState.astro';
+import { getPublished, href } from '../../lib/content';
+
+const projects = await getPublished('projects');
+---
+<Base title="Projects — writeups" description="Original tooling and security projects.">
+  <h1>Projects</h1>
+  <p class="lede">
+    Things I built rather than solved: tooling, lab setups, and code worth
+    reading.
+  </p>
+
+  {projects.length === 0 ? (
+    <EmptyState message="No projects yet. The first ones are in progress." />
+  ) : (
+    <div class="list">
+      {projects.map((project) => (
+        <WriteupCard
+          title={project.data.title}
+          url={href(`projects/${project.id}/`)}
+          summary={project.data.summary}
+          date={project.data.date}
+          facts={project.data.stack}
+        />
+      ))}
+    </div>
+  )}
+</Base>
+
+<style>
+  .lede { color: var(--dim); margin-bottom: 2rem; }
+  .list { border-top: 1px solid var(--rule); }
+</style>
