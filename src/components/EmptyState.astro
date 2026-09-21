@@ -1,0 +1,19 @@
+---
+interface Props {
+  message: string;
+}
+const { message } = Astro.props;
+---
+<p class="empty">{message}</p>
+
+<style>
+  .empty {
+    margin: 1.5rem 0 0;
+    padding: 2.25rem var(--gutter);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    background: var(--raise);
+    color: var(--dim);
+    font-size: 0.9375rem;
+  }
+</style>

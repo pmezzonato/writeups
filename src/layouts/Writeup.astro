@@ -1,0 +1,113 @@
+---
+import Base from './Base.astro';
+import Difficulty from '../components/Difficulty.astro';
+import { formatDate } from '../lib/content';
+
+interface Props {
+  title: string;
+  date: Date;
+  summary: string;
+  /* Key/value facts, rendered as a report header rather than a dotted string. */
+  specs?: { label: string; value: string }[];
+  difficulty?: 'Easy' | 'Medium' | 'Hard' | 'Insane';
+  tags?: string[];
+  /* Numbers the h2 phases. True for attack chains, false for prose. */
+  numbered?: boolean;
+}
+
+const {
+  title,
+  date,
+  summary,
+  specs = [],
+  difficulty,
+  tags = [],
+  numbered = false,
+} = Astro.props;
+---
+<Base title={`${title} — writeups`} description={summary}>
+  <article>
+    <h1>{title}</h1>
+    <p class="summary">{summary}</p>
+
+    <dl class="specs note">
+      <div>
+        <dt>Completed</dt>
+        <dd><time datetime={new Date(date).toISOString()}>{formatDate(date)}</time></dd>
+      </div>
+      {difficulty && (
+        <div>
+          <dt>Difficulty</dt>
+          <dd><Difficulty level={difficulty} /></dd>
+        </div>
+      )}
+      {specs.map(({ label, value }) => (
+        <div>
+          <dt>{label}</dt>
+          <dd>{value}</dd>
+        </div>
+      ))}
+    </dl>
+
+    <div class:list={['prose', { numbered }]}>
+      <slot />
+    </div>
+
+    {tags.length > 0 && (
+      <p class="tags note">
+        {tags.map((tag) => <code>{tag}</code>)}
+      </p>
+    )}
+  </article>
+</Base>
+
+<style>
+  h1 { margin-bottom: 0.4rem; }
+  .summary { color: var(--dim); margin-bottom: 1.5rem; }
+
+  /* Report header: the facts of the machine, as key/value pairs. */
+  .specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem 2rem;
+    margin: 0 0 2.5rem;
+    padding: 0.9rem 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .specs div { display: flex; flex-direction: column; gap: 0.15rem; }
+  .specs dt { color: var(--dim); font-size: 0.8125rem; }
+  .specs dd { margin: 0; color: var(--paper); }
+
+  .prose { counter-reset: phase; }
+  .prose :global(h2) { margin-top: 2.75rem; margin-bottom: 0.6rem; }
+  .prose :global(h3) { margin-top: 1.75rem; margin-bottom: 0.4rem; }
+
+  /* An attack chain is a real sequence, so its phases are numbered. */
+  .prose.numbered :global(h2) {
+    counter-increment: phase;
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+  .prose.numbered :global(h2)::before {
+    content: counter(phase);
+    flex: none;
+    min-width: 1.5rem;
+    padding-bottom: 0.1rem;
+    border-bottom: 2px solid var(--amber);
+    color: var(--amber);
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    font-weight: 400;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 3rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--rule);
+  }
+</style>

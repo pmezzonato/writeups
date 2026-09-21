@@ -1,0 +1,35 @@
+---
+import Base from '../../layouts/Base.astro';
+import WriteupCard from '../../components/WriteupCard.astro';
+import EmptyState from '../../components/EmptyState.astro';
+import { getPublished, href } from '../../lib/content';
+
+const posts = await getPublished('blog');
+---
+<Base title="Blog — writeups" description="Longer technical posts and study notes.">
+  <h1>Blog</h1>
+  <p class="lede">
+    Longer pieces: techniques worth writing down properly, and notes from
+    working through the material.
+  </p>
+
+  {posts.length === 0 ? (
+    <EmptyState message="No posts yet. The first ones are being written." />
+  ) : (
+    <div class="list">
+      {posts.map((post) => (
+        <WriteupCard
+          title={post.data.title}
+          url={href(`blog/${post.id}/`)}
+          summary={post.data.summary}
+          date={post.data.date}
+        />
+      ))}
+    </div>
+  )}
+</Base>
+
+<style>
+  .lede { color: var(--dim); margin-bottom: 2rem; }
+  .list { border-top: 1px solid var(--rule); }
+</style>

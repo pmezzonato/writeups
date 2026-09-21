@@ -1,0 +1,185 @@
+/*
+  Writeups — visual system.
+
+  Two rules carry the whole design:
+
+  1. Monospace means "this is literal machine text" — commands, paths, output,
+     identifiers. It is never used for headings or labels, so its presence on
+     the page is always meaningful rather than decorative.
+  2. Amber is structural. It marks position in a sequence, state, and links.
+     It is not used to decorate.
+
+  No web fonts: a security site that loads a third-party font CDN hands every
+  reader's IP address to that CDN. System stacks only.
+*/
+
+:root {
+  --ink: #14120F;
+  --raise: #1B1815;
+  --rule: #2A2621;
+  --paper: #ECE7DF;
+  --dim: #8B8379;
+  --amber: #E4B33C;
+
+  /* Prose and headings. Charter and Iowan Old Style are genuinely good screen
+     serifs where present; Georgia is the universal floor. */
+  --serif: "Iowan Old Style", Charter, "Bitstream Charter", Georgia, "Times New Roman", serif;
+  /* Literal machine text only. */
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
+
+  --measure: 66ch;
+  --gutter: 1.25rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--serif);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---- Type scale ------------------------------------------------------- */
+
+h1, h2, h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0;
+}
+
+h1 { font-size: 1.9rem; letter-spacing: -0.015em; }
+h2 { font-size: 1.3rem; }
+h3 { font-size: 1.0625rem; }
+
+p { margin: 0 0 1.1em; }
+
+/* ---- Links ------------------------------------------------------------ */
+
+a {
+  color: var(--amber);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--amber) 40%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+a:hover { text-decoration-color: var(--amber); }
+
+:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---- Literal machine text --------------------------------------------- */
+
+code, pre, kbd, samp { font-family: var(--mono); }
+
+pre {
+  margin: 1.5rem 0;
+  padding: 1rem 1.1rem;
+  background: var(--raise);
+  border: 1px solid var(--rule);
+  border-left: 2px solid color-mix(in srgb, var(--amber) 45%, var(--rule));
+  border-radius: 3px;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+pre code { font-size: inherit; background: none; border: 0; padding: 0; }
+
+:not(pre) > code {
+  background: var(--raise);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 0.08em 0.32em;
+  font-size: 0.875em;
+}
+
+/* ---- Layout ----------------------------------------------------------- */
+
+.wrap {
+  max-width: var(--measure);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+main { padding-block: 3rem 1rem; }
+
+/* ---- Small supporting text -------------------------------------------- */
+/* Sentence case, muted, small. No uppercase, no letterspacing. */
+
+.note {
+  font-size: 0.875rem;
+  color: var(--dim);
+  line-height: 1.55;
+}
+
+/* ---- Tables (markdown output) ----------------------------------------- */
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5rem 0;
+  font-size: 0.9375rem;
+}
+th, td {
+  border-bottom: 1px solid var(--rule);
+  padding: 0.5rem 0.7rem 0.5rem 0;
+  text-align: left;
+  vertical-align: top;
+}
+th { color: var(--dim); font-weight: 600; }
+
+/* ---- Misc markdown output --------------------------------------------- */
+
+blockquote {
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+  border-left: 2px solid var(--rule);
+  color: var(--dim);
+}
+
+hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
+
+img { max-width: 100%; height: auto; border-radius: 3px; }
+
+ul, ol { padding-left: 1.3rem; margin: 0 0 1.1em; }
+li { margin-bottom: 0.35em; }
+
+/* ---- Skip link -------------------------------------------------------- */
+
+.skip-link { position: absolute; left: -9999px; }
+.skip-link:focus {
+  left: var(--gutter);
+  top: var(--gutter);
+  z-index: 10;
+  background: var(--amber);
+  color: var(--ink);
+  padding: 0.5rem 0.8rem;
+  border-radius: 3px;
+  text-decoration: none;
+  font-family: var(--mono);
+  font-size: 0.875rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 34em) {
+  :root { --gutter: 1rem; }
+  body { font-size: 1rem; }
+  h1 { font-size: 1.6rem; }
+  main { padding-block: 2rem 1rem; }
+}

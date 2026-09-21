@@ -1,0 +1,29 @@
+---
+import { href } from '../lib/content';
+const year = new Date().getFullYear();
+---
+<footer>
+  <div class="wrap row">
+    <p class="note">Pedro Mezzonato, {year}</p>
+    <p class="note links">
+      <a href="https://github.com/pmezzonato/writeups">Source</a>
+      <a href={href('rss.xml')}>Feed</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  footer { border-top: 1px solid var(--rule); margin-top: 5rem; }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.35rem 1.5rem;
+    padding-block: 1.5rem 2rem;
+  }
+  .row p { margin: 0; }
+  .links { display: flex; gap: 1.25rem; }
+  .links a { color: var(--dim); text-decoration: none; }
+  .links a:hover { color: var(--amber); }
+</style>

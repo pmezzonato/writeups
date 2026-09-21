@@ -1,0 +1,66 @@
+---
+import { href } from '../lib/content';
+
+const sections = [
+  { label: 'Boxes', path: 'boxes/' },
+  { label: 'Blog', path: 'blog/' },
+  { label: 'Projects', path: 'projects/' },
+];
+const here = Astro.url.pathname;
+---
+<header>
+  <div class="wrap bar">
+    <a class="brand" href={href('')}>
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <path
+          d="M16 6.5c-4.7 0-7.6 3.4-7.6 8v11.1l2.85-2.3 2.375 1.9L16 23.3l2.375 1.9 2.375-1.9 2.85 2.3V14.5c0-4.6-2.9-8-7.6-8z"
+          fill="currentColor"
+        />
+        <circle cx="13.2" cy="14.2" r="1.5" fill="#14120F" />
+        <circle cx="18.8" cy="14.2" r="1.5" fill="#14120F" />
+      </svg>
+      <span>writeups</span>
+    </a>
+    <nav aria-label="Sections">
+      {sections.map(({ label, path }) => (
+        <a href={href(path)} aria-current={here.includes(`/${path}`) ? 'page' : undefined}>
+          {label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<style>
+  header { border-bottom: 1px solid var(--rule); }
+
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    padding-block: 1.1rem;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--paper);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .brand .mark { width: 1.35rem; height: 1.35rem; color: var(--amber); flex: none; }
+  .brand:hover span { text-decoration: underline; text-underline-offset: 3px; }
+
+  nav { display: flex; gap: 1.25rem; font-size: 0.9375rem; }
+  nav a {
+    color: var(--dim);
+    text-decoration: none;
+    padding-block: 0.15rem;
+    border-bottom: 1px solid transparent;
+  }
+  nav a:hover { color: var(--paper); }
+  nav a[aria-current='page'] { color: var(--paper); border-bottom-color: var(--amber); }
+</style>
