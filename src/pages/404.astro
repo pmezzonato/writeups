@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+import { href } from '../lib/content';
+---
+<Base title="Page not found — writeups">
+  <h1>Nothing here</h1>
+  <p>
+    That page does not exist. It may have been renamed, or the link may be
+    wrong.
+  </p>
+  <p class="note">
+    Try <a href={href('')}>the index</a>, or go straight to
+    <a href={href('boxes/')}>boxes</a>.
+  </p>
+</Base>
