@@ -1,7 +1,103 @@
 ---
 import Base from '../layouts/Base.astro';
+import WriteupCard from '../components/WriteupCard.astro';
+import EmptyState from '../components/EmptyState.astro';
+import { getPublished, href } from '../lib/content';
+
+const [boxes, posts, projects] = await Promise.all([
+  getPublished('boxes'),
+  getPublished('blog'),
+  getPublished('projects'),
+]);
+
+type Recent = {
+  title: string;
+  url: string;
+  summary: string;
+  date: Date;
+  facts: string[];
+  difficulty?: 'Easy' | 'Medium' | 'Hard' | 'Insane';
+};
+
+const recent: Recent[] = [
+  ...boxes.map((e) => ({
+    title: e.data.title,
+    url: href(`boxes/${e.id}/`),
+    summary: e.data.summary,
+    date: e.data.date,
+    facts: ['Box', e.data.platform],
+    difficulty: e.data.difficulty,
+  })),
+  ...posts.map((e) => ({
+    title: e.data.title,
+    url: href(`blog/${e.id}/`),
+    summary: e.data.summary,
+    date: e.data.date,
+    facts: ['Post'],
+  })),
+  ...projects.map((e) => ({
+    title: e.data.title,
+    url: href(`projects/${e.id}/`),
+    summary: e.data.summary,
+    date: e.data.date,
+    facts: ['Project', ...e.data.stack],
+  })),
+]
+  .sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
+  .slice(0, 5);
 ---
-<Base title="writeups">
-  <h1>writeups</h1>
-  <p>Placeholder — replaced in Task 6.</p>
+<Base title="writeups — Pedro Mezzonato">
+  <h1>Notes from taking things apart</h1>
+  <p class="lede">
+    Security writeups by Pedro Mezzonato — retired machines, web application
+    security, and the occasional thing I built. Written while working toward
+    offensive security, so expect the reasoning, not just the answer.
+  </p>
+
+  <h2 class="section">Recent</h2>
+  {recent.length === 0 ? (
+    <EmptyState message="Nothing published yet. The first writeups are being written — the source repository is on GitHub if you want to watch it fill up." />
+  ) : (
+    <div class="list">
+      {recent.map((item) => (
+        <WriteupCard
+          title={item.title}
+          url={item.url}
+          summary={item.summary}
+          date={item.date}
+          facts={item.facts}
+          difficulty={item.difficulty}
+        />
+      ))}
+    </div>
+  )}
+
+  <p class="browse note">
+    Browse <a href={href('boxes/')}>boxes</a>,
+    <a href={href('blog/')}>blog</a> or
+    <a href={href('projects/')}>projects</a>.
+  </p>
 </Base>
+
+<style>
+  h1 { max-width: 24ch; }
+  .lede {
+    margin-top: 1rem;
+    font-size: 1.125rem;
+    color: var(--dim);
+  }
+  .section {
+    margin-top: 3.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+    font-size: 1rem;
+    color: var(--dim);
+    font-weight: 600;
+  }
+  .list { margin-top: 0; }
+  .browse { margin-top: 2rem; }
+
+  @media (max-width: 34em) {
+    .lede { font-size: 1.0625rem; }
+  }
+</style>
