@@ -8,11 +8,15 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "test": "node --test tests/"
+    "test": "node --test \"tests/**/*.test.js\""
   },
   "dependencies": {
-    "astro": "^7.3.3",
     "@astrojs/rss": "^4.0.19",
+    "astro": "^7.3.3",
     "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3"
   }
 }
