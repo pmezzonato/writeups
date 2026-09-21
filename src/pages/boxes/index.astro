@@ -1,0 +1,37 @@
+---
+import Base from '../../layouts/Base.astro';
+import WriteupCard from '../../components/WriteupCard.astro';
+import EmptyState from '../../components/EmptyState.astro';
+import { getPublished, href } from '../../lib/content';
+
+const boxes = await getPublished('boxes');
+---
+<Base title="Boxes — writeups" description="Retired HTB and THM machine writeups.">
+  <h1>Boxes</h1>
+  <p class="lede">
+    Retired machines only, worked end to end: what I enumerated, what got me in,
+    how I escalated, and what would have stopped me.
+  </p>
+
+  {boxes.length === 0 ? (
+    <EmptyState message="No box writeups yet. The first ones are being written." />
+  ) : (
+    <div class="list">
+      {boxes.map((box) => (
+        <WriteupCard
+          title={box.data.title}
+          url={href(`boxes/${box.id}/`)}
+          summary={box.data.summary}
+          date={box.data.date}
+          difficulty={box.data.difficulty}
+          facts={[box.data.platform, box.data.os]}
+        />
+      ))}
+    </div>
+  )}
+</Base>
+
+<style>
+  .lede { color: var(--dim); margin-bottom: 2rem; }
+  .list { border-top: 1px solid var(--rule); }
+</style>

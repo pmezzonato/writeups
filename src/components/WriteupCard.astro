@@ -1,0 +1,43 @@
+---
+import { formatDate } from '../lib/content';
+import Difficulty from './Difficulty.astro';
+
+interface Props {
+  title: string;
+  url: string;
+  summary: string;
+  date: Date;
+  /* Plain facts shown after the date. No dot-joined meta strings. */
+  facts?: string[];
+  difficulty?: 'Easy' | 'Medium' | 'Hard' | 'Insane';
+}
+const { title, url, summary, date, facts = [], difficulty } = Astro.props;
+---
+<article class="row">
+  <h2><a href={url}>{title}</a></h2>
+  <p class="summary">{summary}</p>
+  <div class="facts note">
+    <time datetime={new Date(date).toISOString()}>{formatDate(date)}</time>
+    {difficulty && <Difficulty level={difficulty} />}
+    {facts.map((fact) => <span>{fact}</span>)}
+  </div>
+</article>
+
+<style>
+  .row {
+    padding-block: 1.6rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .row h2 { margin-bottom: 0.3rem; }
+  .row h2 a { color: var(--paper); text-decoration: none; }
+  .row h2 a:hover { color: var(--amber); }
+
+  .summary { margin-bottom: 0.6rem; }
+
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 1.1rem;
+  }
+</style>

@@ -1,0 +1,28 @@
+---
+import { render } from 'astro:content';
+import Writeup from '../../layouts/Writeup.astro';
+import { getPublished } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const boxes = await getPublished('boxes');
+  return boxes.map((box) => ({ params: { slug: box.id }, props: { box } }));
+}
+
+const { box } = Astro.props;
+const { Content } = await render(box);
+---
+<Writeup
+  title={box.data.title}
+  date={box.data.date}
+  summary={box.data.summary}
+  difficulty={box.data.difficulty}
+  specs={[
+    { label: 'Platform', value: box.data.platform },
+    { label: 'Operating system', value: box.data.os },
+    { label: 'Status', value: 'Retired' },
+  ]}
+  tags={box.data.tags}
+  numbered
+>
+  <Content />
+</Writeup>

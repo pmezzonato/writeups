@@ -1,0 +1,32 @@
+---
+/*
+  Difficulty is ordinal data, so it reads as a four-step scale rather than a
+  word. Four pips, filled to level, in one hue.
+*/
+interface Props {
+  level: 'Easy' | 'Medium' | 'Hard' | 'Insane';
+}
+const { level } = Astro.props;
+
+const LEVELS = ['Easy', 'Medium', 'Hard', 'Insane'] as const;
+const filled = LEVELS.indexOf(level) + 1;
+---
+<span class="difficulty" title={`Difficulty: ${level}`}>
+  <span class="pips" aria-hidden="true">
+    {LEVELS.map((_, i) => <span class:list={['pip', { on: i < filled }]} />)}
+  </span>
+  <span class="label">{level}</span>
+</span>
+
+<style>
+  .difficulty { display: inline-flex; align-items: center; gap: 0.45rem; }
+  .pips { display: inline-flex; gap: 2px; }
+  .pip {
+    width: 5px;
+    height: 11px;
+    border-radius: 1px;
+    background: var(--rule);
+  }
+  .pip.on { background: var(--amber); }
+  .label { font-size: 0.875rem; color: var(--dim); }
+</style>
