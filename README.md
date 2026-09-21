@@ -23,6 +23,3 @@ npm test         # build assertions
 
 Frontmatter is validated at build time. Box writeups must be marked
 `status: retired`; anything else fails the build.
-
-See **[docs/writing-writeups.md](docs/writing-writeups.md)** for the full guide
-to writing and publishing a writeup.
