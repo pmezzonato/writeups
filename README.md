@@ -7,5 +7,3 @@
 Published at <https://pmezzonato.github.io/writeups/>. The markdown in
 `boxes/`, `blog/` and `projects/` is the content source and stays readable
 here on GitHub.
-
-Box frontmatter must declare `status: retired`; anything else fails the build.
