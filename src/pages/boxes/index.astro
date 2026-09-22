@@ -14,7 +14,7 @@ const boxes = await getPublished('boxes');
   </p>
 
   {boxes.length === 0 ? (
-    <EmptyState message="No box writeups yet. The first ones are being written." />
+    <EmptyState message="No box writeups published yet." />
   ) : (
     <div class="list">
       {boxes.map((box) => (

@@ -8,5 +8,6 @@
 ## Enumeration
 ## Foothold
 ## Privilege Escalation
-## Flags
+## Proof
+<!-- Describe the access obtained. Do not paste flag values. -->
 ## Remediation

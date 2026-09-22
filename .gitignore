@@ -6,10 +6,8 @@ dist/
 .env
 .env.production
 
-# personal design notes and guides — kept local, never published.
-# This repo is public: anything matched here stays on this machine only.
 docs/
-HOW-TO-USE.md
-**/HOW-TO-USE.md
 NOTES.md
 **/NOTES.md
+HOW-TO-USE.md
+**/HOW-TO-USE.md

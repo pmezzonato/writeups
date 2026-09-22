@@ -50,13 +50,13 @@ const recent: Recent[] = [
   <h1>Notes from taking things apart</h1>
   <p class="lede">
     Security writeups by Pedro Mezzonato — retired machines, web application
-    security, and the occasional thing I built. Written while working toward
-    offensive security, so expect the reasoning, not just the answer.
+    security, and the occasional thing I built. Written for the reasoning,
+    not just the answer.
   </p>
 
   <h2 class="section">Recent</h2>
   {recent.length === 0 ? (
-    <EmptyState message="Nothing published yet. The first writeups are being written — the source repository is on GitHub if you want to watch it fill up." />
+    <EmptyState message="Nothing published yet." />
   ) : (
     <div class="list">
       {recent.map((item) => (

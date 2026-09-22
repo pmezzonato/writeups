@@ -14,7 +14,7 @@ const projects = await getPublished('projects');
   </p>
 
   {projects.length === 0 ? (
-    <EmptyState message="No projects yet. The first ones are in progress." />
+    <EmptyState message="No projects published yet." />
   ) : (
     <div class="list">
       {projects.map((project) => (

@@ -14,7 +14,7 @@ const posts = await getPublished('blog');
   </p>
 
   {posts.length === 0 ? (
-    <EmptyState message="No posts yet. The first ones are being written." />
+    <EmptyState message="No posts published yet." />
   ) : (
     <div class="list">
       {posts.map((post) => (

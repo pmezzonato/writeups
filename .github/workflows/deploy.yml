@@ -1,7 +1,6 @@
 name: Deploy site
 
-# Manual only, deliberately: the site stays unpublished until there are
-# 2-3 real writeups. Add `push: { branches: [main] }` when that is true.
+# Manual only. Add `push: { branches: [main] }` to deploy on every push.
 on:
   workflow_dispatch:
 

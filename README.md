@@ -1,25 +1,15 @@
 # writeups
 
-Public portfolio: retired HTB/THM machines, personal security projects, and technical write-ups.
-
 - `boxes/` — retired-machine writeups only (never active machines — HTB rule)
-- `projects/` — original tooling and projects (e.g. the Secure Capstone)
+- `projects/` — original tooling and projects
 - `blog/` — longer technical posts
 
-## Site
+Published at <https://pmezzonato.github.io/writeups/>. The markdown in
+`boxes/`, `blog/` and `projects/` is the content source and stays readable
+here on GitHub.
 
-This repository is also published as a static site at
-<https://pmezzonato.github.io/writeups/>.
+Box frontmatter must declare `status: retired`; anything else fails the build.
 
-The markdown in `boxes/`, `blog/` and `projects/` is the content source and is
-read in place — it stays readable here on GitHub.
+## Local
 
-```bash
-npm install
-npm run dev      # local preview
-npm run build    # production build into dist/
-npm test         # build assertions
-```
-
-Frontmatter is validated at build time. Box writeups must be marked
-`status: retired`; anything else fails the build.
+`npm install`, then `npm run dev` to preview, `npm run build`, `npm test`.
