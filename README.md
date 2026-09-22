@@ -9,7 +9,3 @@ Published at <https://pmezzonato.github.io/writeups/>. The markdown in
 here on GitHub.
 
 Box frontmatter must declare `status: retired`; anything else fails the build.
-
-## Local
-
-`npm install`, then `npm run dev` to preview, `npm run build`, `npm test`.
